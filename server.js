@@ -5,6 +5,7 @@ const bodyParser  = require('body-parser');
 const expect      = require('chai').expect;
 const cors        = require('cors');
 const helmet      = require('helmet');
+const mongoose    = require('mongoose');
 
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
@@ -12,6 +13,10 @@ const runner            = require('./test-runner');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+require('dotenv').config();
+
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
