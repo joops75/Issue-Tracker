@@ -22,6 +22,7 @@ module.exports = class {
     postIssue(req, res) {
         const { project } = req.params;
         const { issue_title, issue_text, created_by, assigned_to, status_text } = req.body;
+        if (!issue_title || !issue_text || !created_by) return res.send('missing inputs');
         Issue.create({ project, issue_title, issue_text, created_by, assigned_to, status_text }, (err, doc) => {
             if (err) throw err;
             Project.findOneAndUpdate({ project }, { $push: { issues: doc } }, { upsert: true, new: true }, err => {
